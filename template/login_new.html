@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Login Form{% endblock title %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% block body %}
+	<div class="content">
+		<div class="text">Sign in</div>
+		<form action="/login/" method="post">
+			{% csrf_token %} 
+			<div class="field">
+				<span class="fas fa-user"></span>
+				<input type="text" required name="username">
+				<label>Username</label>
+			</div>
+			<div class="field">
+				<span class="fas fa-lock"></span>
+				<input type="password" required name="password" id="password1">
+				<i class="far fa-eye" id="togglePassword1"></i>
+				<label>Password</label>
+			</div>
+			<div class="forgot-pass"><a href="/forgotPass">Forgot Password?</a></div>
+			<button>sign in</button>
+			<div class="signup">Not a member?
+				<a href="/signup">signup now</a>
+			</div>
+		</form>
+		
+    	<button class="google"><i class="fab fa-google"></i> <a class="btn-font" href="{% provider_login_url 'google' %}">sign in with Google</a></button>
+		<button class="facebook"><i class="fab fa-facebook-f"></i> <a class="btn-font" href="{% provider_login_url 'facebook' method='oauth2' %}">sign in with Facebook</a></button>
+	</div>
+	<script>
+				// for show password for one
+		const togglePassword1 = document.querySelector('#togglePassword1');
+		const password1 = document.querySelector('#password1');
+		togglePassword1.addEventListener('click', function (e) {
+		// toggle the type attribute
+		const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+		password1.setAttribute('type', type);
+		// toggle the eye slash icon
+		this.classList.toggle('fa-eye-slash');
+		});
+	</script>
+	{% endblock body %}
